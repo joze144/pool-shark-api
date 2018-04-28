@@ -2,29 +2,32 @@
 
 const Pool = require('./poolModel')
 
-async function addPool(contractAddress, tokenAddress, deadline, name) {
+async function handlePoolCreated (event) {
+  const address = event.returnValues._pool
+  const name = event.returnValues._name
+  const rate = event.returnValues._rate
+  const epochDeadline = event.returnValues._deadline
+  const blockNumber = event.blockNumber
+  const id = event.id
+
   const query = {
-    address: contractAddress
+    address: address
   }
 
   const update = {
-
+    block_created: blockNumber,
+    rate: rate,
+    name: name,
+    deadline: new Date(epochDeadline * 1000),
+    event_id: id
   }
 
-  await Pool.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
+  const created = await Pool.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
+
+  // Check if new entry
+  return (created.n && !created.nModified)
 }
 
-async function updatePoolTotalSupply(contractAddress, totalSupply) {
-  const query = {
-    address: contractAddress
-  }
-  const update = {
-    collected_eth: totalSupply
-  }
-  await Pool.update(query, {$set: update}).then()
-}
-
-module.exports ={
-  addPool,
-  updatePoolTotalSupply
+module.exports = {
+  handlePoolCreated
 }

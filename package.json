@@ -1,16 +1,23 @@
 {
-  "name": "block-explorer",
+  "name": "pool-shark-api",
   "version": "1.0.0",
-  "description": "Ethereum blockchain explorer",
+  "description": "Ethereum blockchain explorer - Shark of The Pool API",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "export NODE_ENV=ropsten && nodemon index.js --trace-sync-io",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "standard --verbose --fix --global describe --global it | snazzy"
   },
   "keywords": [
-    "ethereum"
+    "ethereum",
+    "dapp"
   ],
   "author": "Johe <joze.kosmerl@gmail.com>",
   "license": "ISC",
+  "devDependencies": {
+    "snazzy": "^7.1.1",
+    "standard": "^11.0.1"
+  },
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
@@ -22,10 +29,10 @@
     "mongoose": "^5.0.16",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.0",
+    "node-cron": "^1.2.1",
     "path": "^0.12.7",
     "pm2": "^2.10.2",
     "socket.io": "^2.1.0",
-    "standard": "^11.0.1",
     "underscore": "^1.9.0",
     "web3": "^1.0.0-beta.34",
     "winston": "^2.4.2"

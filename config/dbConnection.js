@@ -16,7 +16,7 @@ mongoose.connect(config.db_connection[process.env.NODE_ENV])
 const db = mongoose.connection
 db.on('error', (err) => {
   logger.error('Error connecting to Mongo DB')
-logger.error(err)
+  logger.error(err)
 })
 db.once('open', () => {
   logger.info('Connection to API service DB ok!')

@@ -20,10 +20,13 @@ const fishTokenDataSchema = new Schema({
   amount: String,
   shark: String,
   totalSupply: String,
-  block: {
+  block_number: {
     required: true,
     type: Number
   }
+},
+{
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 fishTokenDataSchema.plugin(mongoosePaginate)

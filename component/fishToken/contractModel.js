@@ -9,12 +9,21 @@ const fishTokenContractSchema = new Schema({
     required: true,
     type: String
   },
-  deadline: Date,
-  finished: {
+  pool_address: {
     required: true,
-    type: Boolean
+    type: String
   },
-  last_block: Number
+  deadline: {
+    required: true,
+    type: Date
+  },
+  block_created: {
+    required: true,
+    type: Number
+  }
+},
+{
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 fishTokenContractSchema.plugin(mongoosePaginate)

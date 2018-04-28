@@ -14,6 +14,8 @@ const routes = require('./component/router')
 const morgan = require('morgan')
 const logger = require('./config/logger')
 const initScript = require('./component/initScript')
+const cronJobRunner = require('./component/cronJobRunner')
+
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.environments.ropsten
 }
@@ -33,10 +35,6 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Credentials', 'true')
   res.header('Access-Control-Expose-Headers', 'Content-Disposition')
   next()
-})
-
-initScript.initAppContract().then(() => {
-  logger.info('Initiated app contract.')
 })
 
 // Import routes to be served
@@ -60,6 +58,24 @@ server.listen(port, () => {
   logger.info('Current environment: %s', env)
   logger.info('Shark of The Pool API. Server listening on port %s', port)
   logger.info('Domain: %s', config.domain)
+})
+
+initScript.init().then((done, err) => {
+  if (err) {
+    logger.error('Problem with data initialization!')
+    logger.error(err)
+    return
+  }
+
+  logger.info(done)
+})
+
+cronJobRunner.isActive().then((done) => {
+  if (done) {
+    logger.info('Data parser is active!')
+    return
+  }
+  logger.info('Data parsing disabled! Check ./config/main/parsing_active setting')
 })
 
 module.exports = app

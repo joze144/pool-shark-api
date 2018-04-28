@@ -1,10 +1,13 @@
 'use strict'
 
-const ContractTypes = require('./Types')
 const Contract = require('./contractModel')
-const logger = require('../../config/logger')
+const config = require('../../config/main')
 
-async function addContract(contractAddress, type, creationBlock) {
+async function addContract (contractAddress, type, creationBlock) {
+  if (!creationBlock) {
+    creationBlock = config.contract_included_block
+  }
+
   const query = {
     address: contractAddress
   }
@@ -17,15 +20,13 @@ async function addContract(contractAddress, type, creationBlock) {
   await Contract.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 }
 
-async function getContracts(types) {
+async function getContracts (types) {
   const query = {}
-  if(types) {
+  if (types) {
     query.contract_type = types
   }
 
-  const contracts = await Contract.findAll(query).then()
-
-  logger.info(JSON.stringify(contracts))
+  return Contract.find(query).then()
 }
 
 module.exports = {

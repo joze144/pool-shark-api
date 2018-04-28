@@ -3,59 +3,43 @@
 const _ = require('underscore')
 const Promise = require('bluebird')
 const logger = require('../config/logger')
+const config = require('../config/main')
 const contractHelper = require('./contract/helper')
-const web3 = require('./web3Provider')
-
 const ContractType = require('./contract/Types')
 const AppParser = require('./app/AppParser')
 const FishTokenParser = require('./fishToken/FishTokenParser')
 
-let parsers = {}
-
-async function createParsers() {
+async function createParsers () {
   const contracts = await contractHelper.getContracts([ContractType.FishToken, ContractType.App])
 
   const promises = _.map(contracts, (obj) => {
-    return createParser(obj)
+    return createParser(obj._doc)
   })
 
-  await Promise.all(promises)
+  return Promise.all(promises)
 }
 
-async function createParser(contract) {
+async function createParser (contract) {
   switch (contract.contract_type) {
     case ContractType.App:
-      const appParser = new AppParser(contract.address)
-      parsers[contract.address] = appParser
-      break
+      return new AppParser(contract.address, config.contract_included_block)
     case ContractType.FishToken:
-      const fishTokenParser = new FishTokenParser(contract.address)
-      parsers[contract.address] = fishTokenParser
-      break
+      return new FishTokenParser(contract.address, config.contract_included_block)
     default:
       logger.error('Not a valid contract type!')
       throw new Error('Not a valid contract type!')
   }
 }
 
-async function getDataForBlocks() {
-  const promises = _.map(parsers, (value, key) => {
-    return value.parseBlocks()
+async function runParser () {
+  // init script
+  const parsers = await createParsers()
+
+  const parseBlockPromises = _.map(parsers, (parser) => {
+    return parser.parseBlocks()
   })
 
-  await Promise.all(promises)
-}
-
-async function runParser() {
-
-  // We will parse data every 2 minutes
-  let from = new Date()
-  while(from < new Date()) {
-
-
-
-    from.setSeconds(from.getSeconds() + 120)
-  }
+  await Promise.all(parseBlockPromises)
 }
 
 module.exports = {

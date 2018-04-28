@@ -9,6 +9,8 @@ module.exports = {
     ropsten: process.env.RPC_ENDPOINT || '< enter eth node >',
     mainnet: process.env.RPC_ENDPOINT || '< enter eth node >'
   },
+  contract_included_block: 3121672,
+  parsing_active: true,
   db_connection: {
     test: 'mongodb://localhost:27017/shark_data_test_db',
     ropsten: process.env.DB_CONNECTION || 'mongodb://localhost:27017/shark_data_test_db',

@@ -1,46 +1,48 @@
 'use strict'
 
 const web3 = require('../web3Provider')
-const abi = require('../../contract/iFishToken.json').abi
+const poolAbi = require('../../contract/Pool.json').abi
 const FishTokenContract = require('./contractModel')
-const FishTokenData = require('./parsedDataModel')
+// const FishTokenData = require('./parsedDataModel')
 const logger = require('../../config/logger')
 
-async function handleTransferEvent(event) {
+async function handleTransferEvent (event) {
   logger.info('Fish token transfer event')
   logger.info(event)
 }
 
-async function handleIssueTokensEvent() {
+async function handleIssueTokensEvent (event) {
   logger.info('Fish token issue tokens event')
   logger.info(event)
 }
 
-async function handleNewSharkEvent() {
+async function handleNewSharkEvent (event) {
   logger.info('Fish token new shark event')
   logger.info(event)
 }
 
-async function addContract(contractAddress) {
+async function handleTokenCreated (event) {
+  const poolAddress = event.returnValues._pool
+  const epochDeadline = event.returnValues._deadline
+  const blockNumber = event.blockNumber
+  const poolContract = new web3.eth.Contract(poolAbi, poolAddress)
+  const token = await poolContract.methods.token().call()
+  logger.info('Adding Token: ' + token + ' for Pool: ' + poolAddress)
 
   const query = {
-    address: contractAddress
+    address: token
   }
-
-  const contract = new web3.eth.Contract(abi, contractAddress)
-
-  contract.methods.deadline()
-
   const update = {
-
+    pool_address: poolAddress,
+    deadline: new Date(epochDeadline * 1000),
+    block_created: blockNumber
   }
-
-  return await FishTokenContract.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
+  return FishTokenContract.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 }
 
 module.exports = {
+  handleTokenCreated,
   handleTransferEvent,
   handleIssueTokensEvent,
-  handleNewSharkEvent,
-  addContract
+  handleNewSharkEvent
 }

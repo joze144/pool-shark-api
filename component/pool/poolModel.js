@@ -9,21 +9,26 @@ const poolContractSchema = new Schema({
     required: true,
     type: String
   },
-  token_address: {
+  rate: {
+    required: true,
+    type: Number
+  },
+  name: {
     required: true,
     type: String
   },
-  name: String,
-  deadline: Date,
-  collected_eth: {
-    type: String,
-    default: '0'
-  },
-  finished: {
+  deadline: {
     required: true,
-    type: Boolean
+    type: Date
   },
-  last_block: Number
+  block_created: {
+    required: true,
+    type: Number
+  },
+  event_id: String
+},
+{
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 poolContractSchema.plugin(mongoosePaginate)

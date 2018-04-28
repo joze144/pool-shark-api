@@ -16,7 +16,7 @@ const contractSchema = new Schema({
     required: true,
     type: Boolean
   },
-  contract_type:{
+  contract_type: {
     type: String,
     enum: [Type.FishToken, Type.Pool, Type.App]
   },
@@ -24,6 +24,9 @@ const contractSchema = new Schema({
     default: 0,
     type: Number
   }
+},
+{
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 contractSchema.plugin(mongoosePaginate)
