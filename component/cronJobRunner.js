@@ -4,7 +4,7 @@ const CronJob = require('node-cron')
 const parser = require('./parser')
 const config = require('../config/main')
 
-CronJob.schedule('* * * * *', async () => {
+CronJob.schedule('0,30 * * * * *', async () => {
   if (!config.parsing_active) {
     return
   }

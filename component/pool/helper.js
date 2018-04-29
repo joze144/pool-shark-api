@@ -1,8 +1,14 @@
 'use strict'
 
 const Pool = require('./poolModel')
+const contractHelper = require('../contract/helper')
+const ContractType = require('../contract/Types')
 
 async function handlePoolCreated (event) {
+  if (!event.blockNumber || !event.blockHash) {
+    return false
+  }
+
   const address = event.returnValues._pool
   const name = event.returnValues._name
   const rate = event.returnValues._rate
@@ -22,6 +28,7 @@ async function handlePoolCreated (event) {
     event_id: id
   }
 
+  await contractHelper.addContract(address, ContractType.Pool, blockNumber)
   const created = await Pool.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 
   // Check if new entry
