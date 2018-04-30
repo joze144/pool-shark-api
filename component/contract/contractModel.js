@@ -23,6 +23,10 @@ const contractSchema = new Schema({
   last_checked_block: {
     default: 0,
     type: Number
+  },
+  removed: {
+    required: true,
+    type: Boolean
   }
 },
 {

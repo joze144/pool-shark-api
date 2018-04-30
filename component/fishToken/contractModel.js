@@ -18,8 +18,11 @@ const fishTokenContractSchema = new Schema({
     type: Date
   },
   block_created: {
-    required: true,
     type: Number
+  },
+  removed: {
+    required: true,
+    type: Boolean
   }
 },
 {

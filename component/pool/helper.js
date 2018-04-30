@@ -5,16 +5,14 @@ const contractHelper = require('../contract/helper')
 const ContractType = require('../contract/Types')
 
 async function handlePoolCreated (event) {
-  if (!event.blockNumber || !event.blockHash) {
-    return false
-  }
-
   const address = event.returnValues._pool
   const name = event.returnValues._name
   const rate = event.returnValues._rate
   const epochDeadline = event.returnValues._deadline
   const blockNumber = event.blockNumber
   const id = event.id
+  let removed = false
+  if(event.removed) removed = true
 
   const query = {
     address: address
@@ -22,13 +20,16 @@ async function handlePoolCreated (event) {
 
   const update = {
     block_created: blockNumber,
+    removed: removed,
     rate: rate,
     name: name,
     deadline: new Date(epochDeadline * 1000),
     event_id: id
   }
 
-  await contractHelper.addContract(address, ContractType.Pool, blockNumber)
+  if (blockNumber) {
+    await contractHelper.addContract(address, ContractType.Pool, blockNumber, removed)
+  }
   const created = await Pool.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 
   // Check if new entry

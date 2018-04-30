@@ -107,6 +107,8 @@ async function handleNewSharkEvent (event) {
 }
 
 async function handleTokenCreated (event) {
+  let removed = false
+  if(event.removed) removed = true
   const poolAddress = event.returnValues._pool
   const epochDeadline = event.returnValues._deadline
   const blockNumber = event.blockNumber
@@ -120,10 +122,13 @@ async function handleTokenCreated (event) {
   const update = {
     pool_address: poolAddress,
     deadline: new Date(epochDeadline * 1000),
-    block_created: blockNumber
+    block_created: blockNumber,
+    removed: removed
   }
 
-  await contractHelper.addContract(token, ContractType.FishToken, blockNumber)
+  if (blockNumber) {
+    await contractHelper.addContract(token, ContractType.FishToken, blockNumber, removed)
+  }
 
   return FishTokenContract.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 }

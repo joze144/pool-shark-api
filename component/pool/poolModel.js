@@ -22,8 +22,11 @@ const poolContractSchema = new Schema({
     type: Date
   },
   block_created: {
-    required: true,
     type: Number
+  },
+  removed: {
+    required: true,
+    type: Boolean
   },
   event_id: String
 },
