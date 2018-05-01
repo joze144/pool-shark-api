@@ -10,10 +10,6 @@ const ContractType = require('../contract/Types')
 const Event = require('./Events')
 
 async function handleTransferEvent (event) {
-  if (!event.blockNumber || !event.blockHash) {
-    return
-  }
-
   const address = event.address
   const txHash = event.transactionHash
   const signature = event.signature
@@ -44,10 +40,6 @@ async function handleTransferEvent (event) {
 }
 
 async function handleIssueTokensEvent (event) {
-  if (!event.blockNumber || !event.blockHash) {
-    return
-  }
-
   const address = event.address
   const txHash = event.transactionHash
   const signature = event.signature
@@ -75,10 +67,6 @@ async function handleIssueTokensEvent (event) {
 }
 
 async function handleNewSharkEvent (event) {
-  if (!event.blockNumber || !event.blockHash) {
-    return
-  }
-
   const address = event.address
   const txHash = event.transactionHash
   const signature = event.signature

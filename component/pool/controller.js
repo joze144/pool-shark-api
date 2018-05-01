@@ -7,8 +7,10 @@ const Pool = require('./poolModel')
 async function getPools (req, res) {
   const query = {
   }
-  if (req.body.name) {
-    query.name = new RegExp(req.body.name, 'i')
+  if (req.body.filter) {
+    const name = new RegExp(req.body.filter, 'i')
+    const address = new RegExp(req.body.filter, 'i')
+    query.$or = [{name: name}, {address: address}]
   }
   const options = {
     page: req.body.page,
@@ -29,6 +31,11 @@ async function getPools (req, res) {
   }
 }
 
+async function getSinglePool (req, res) {
+  return res.json({message: 'It works. ID: ' + req.params.id})
+}
+
 module.exports = {
-  getPools
+  getPools,
+  getSinglePool
 }

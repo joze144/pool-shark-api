@@ -33,7 +33,6 @@ const fishTokenDataSchema = new Schema({
   shark_address: String,
   shark_amount_wei: String,
   block_number: {
-    required: true,
     type: Number
   },
   removed: {

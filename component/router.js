@@ -16,6 +16,8 @@ const v1Routes = express.Router()
 apiRoutes.use('/v1', v1Routes)
 
 v1Routes.post('/pool/list', pagination, poolController.getPools)
+v1Routes.get('/pool/list', pagination, poolController.getPools)
+v1Routes.get('/pool/:id', poolController.getSinglePool)
 v1Routes.get('/token/:id', fishTokenController.getTokenById)
 
 module.exports = apiRoutes
