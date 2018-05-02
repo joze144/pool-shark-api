@@ -16,7 +16,7 @@ async function handleTransferEvent (event) {
   const id = event.id
   const blockNumber = event.blockNumber
   let removed = false
-  if(event.removed) removed = true
+  if (event.removed) removed = true
 
   const fromAddress = event.returnValues._from
   const toAddress = event.returnValues._to
@@ -48,7 +48,7 @@ async function handleIssueTokensEvent (event) {
   const issueAddress = event.returnValues._member
   const issueWeiValue = event.returnValues._value
   let removed = false
-  if(event.removed) removed = true
+  if (event.removed) removed = true
 
   const query = {
     log_id: id,
@@ -73,7 +73,7 @@ async function handleNewSharkEvent (event) {
   const id = event.id
   const blockNumber = event.blockNumber
   let removed = false
-  if(event.removed) removed = true
+  if (event.removed) removed = true
 
   const shark = event.returnValues._shark
   const sharkAmount = event.returnValues._value
@@ -96,7 +96,7 @@ async function handleNewSharkEvent (event) {
 
 async function handleTokenCreated (event) {
   let removed = false
-  if(event.removed) removed = true
+  if (event.removed) removed = true
   const poolAddress = event.returnValues._pool
   const epochDeadline = event.returnValues._deadline
   const blockNumber = event.blockNumber

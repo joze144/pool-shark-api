@@ -12,7 +12,7 @@ async function handlePoolCreated (event) {
   const blockNumber = event.blockNumber
   const id = event.id
   let removed = false
-  if(event.removed) removed = true
+  if (event.removed) removed = true
 
   const query = {
     address: address

@@ -5,11 +5,11 @@ Service is designed to parse events for contract specified in the ./config/main.
 It will parse events from ./config/contract_included_block, and automatically
 add other contracts, created by the main contract.
 
-It parses events on every 30s for each contract stored in the contracts table.
+It parses events every 30s for each contract stored in the contracts table.
 
 #### Running service
 Make sure you specify correct RPC provider, contract address and db connection.
-You need to run mongoDb database.
+You need to run MongoDb database.
 
 Run: 
 ```
