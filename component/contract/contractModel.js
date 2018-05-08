@@ -16,6 +16,10 @@ const contractSchema = new Schema({
     required: true,
     type: Boolean
   },
+  deadline: {
+    type: Number,
+    required: true
+  },
   contract_type: {
     type: String,
     enum: [Type.FishToken, Type.Pool, Type.App]

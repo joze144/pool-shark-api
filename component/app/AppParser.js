@@ -5,6 +5,8 @@ const web3 = require('../web3Provider')
 const contract = require('../../contract/PoolSharkApp.json')
 const poolHelper = require('../pool/helper')
 const fishTokenHelper = require('../fishToken/helper')
+const poolListHelper = require('../poolList/helper')
+const tokenHolderHelper = require('../tokenHolders/helper')
 const AppEvents = require('./Events')
 
 function AppParser (contractAddress, fromBlock) {
@@ -24,6 +26,7 @@ async function handleEvent (event) {
     case AppEvents.POOL_CREATED:
       const newEntry = await poolHelper.handlePoolCreated(event)
       if (newEntry) {
+        await poolListHelper.createPool(event)
         return fishTokenHelper.handleTokenCreated(event)
       }
       return

@@ -15,7 +15,7 @@ const fishTokenContractSchema = new Schema({
   },
   deadline: {
     required: true,
-    type: Date
+    type: Number
   },
   block_created: {
     type: Number

@@ -18,17 +18,18 @@ async function handlePoolCreated (event) {
     address: address
   }
 
+  let deadline = parseInt(epochDeadline * 1000);
   const update = {
     block_created: blockNumber,
     removed: removed,
     rate: rate,
     name: name,
-    deadline: new Date(epochDeadline * 1000),
+    deadline: deadline,
     event_id: id
   }
 
   if (blockNumber) {
-    await contractHelper.addContract(address, ContractType.Pool, blockNumber, removed)
+    await contractHelper.addContract(address, ContractType.Pool, blockNumber, removed, deadline)
   }
   const created = await Pool.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 

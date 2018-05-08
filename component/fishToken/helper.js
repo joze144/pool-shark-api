@@ -57,7 +57,7 @@ async function handleIssueTokensEvent (event) {
   const update = {
     tx_hash: txHash,
     signature: signature,
-    type: Event.TRANSFER,
+    type: Event.ISSUE,
     block_number: blockNumber,
     removed: removed,
     to_address: issueAddress,
@@ -85,7 +85,7 @@ async function handleNewSharkEvent (event) {
   const update = {
     tx_hash: txHash,
     signature: signature,
-    type: Event.TRANSFER,
+    type: Event.NEW_SHARK,
     block_number: blockNumber,
     removed: removed,
     shark_address: shark,
@@ -107,23 +107,33 @@ async function handleTokenCreated (event) {
   const query = {
     address: token
   }
+  let deadline = parseInt(epochDeadline * 1000);
   const update = {
     pool_address: poolAddress,
-    deadline: new Date(epochDeadline * 1000),
+    deadline: deadline,
     block_created: blockNumber,
     removed: removed
   }
 
   if (blockNumber) {
-    await contractHelper.addContract(token, ContractType.FishToken, blockNumber, removed)
+    await contractHelper.addContract(token, ContractType.FishToken, blockNumber, removed, deadline)
   }
 
   return FishTokenContract.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
+}
+
+async function getTokenForPool(address) {
+  const query = {
+    pool_address: address
+  }
+
+  return FishTokenContract.findOne(query).then()
 }
 
 module.exports = {
   handleTokenCreated,
   handleTransferEvent,
   handleIssueTokensEvent,
-  handleNewSharkEvent
+  handleNewSharkEvent,
+  getTokenForPool
 }
