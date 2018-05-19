@@ -2,15 +2,15 @@
 
 const httpStatus = require('http-status-codes')
 const logger = require('../../config/logger')
-const tokenHelper = require('../fishToken/helper')
+const tokenHelper = require('../eventParser/fishTokenParser/helper')
 const TokenHolders = require('./tokenHoldersModel')
 
-async function getTokenHolders(req, res) {
+async function getTokenHolders (req, res) {
   const poolAddress = req.params.id
 
   const token = await tokenHelper.getTokenForPool(poolAddress)
 
-  if(!token) {
+  if (!token) {
     return res.status(httpStatus.NOT_FOUND).json({docs: []})
   }
 

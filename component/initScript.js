@@ -1,8 +1,8 @@
 'use strict'
 
 const config = require('../config/main')
-const contractHelper = require('./contract/helper')
-const ContractType = require('./contract/Types')
+const contractHelper = require('./eventParser/contract/helper')
+const ContractType = require('./eventParser/contract/Types')
 
 async function init () {
   try {

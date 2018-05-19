@@ -2,12 +2,12 @@
 
 const _ = require('underscore')
 const Promise = require('bluebird')
-const logger = require('../config/logger')
-const config = require('../config/main')
+const logger = require('../../config/logger')
+const config = require('../../config/main')
 const contractHelper = require('./contract/helper')
 const ContractType = require('./contract/Types')
-const AppParser = require('./app/AppParser')
-const FishTokenParser = require('./fishToken/FishTokenParser')
+const AppParser = require('./appParser/AppParser')
+const FishTokenParser = require('./fishTokenParser/FishTokenParser')
 
 async function createParsers () {
   const contracts = await contractHelper.getContracts([ContractType.FishToken, ContractType.App])

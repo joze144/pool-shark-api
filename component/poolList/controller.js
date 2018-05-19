@@ -1,9 +1,11 @@
 'use strict'
 
+const _ = require('underscore')
 const httpStatus = require('http-status-codes')
 const logger = require('../../config/logger')
 const statisticsHelper = require('./statisticsHelper')
 const PoolList = require('./poolListModel')
+const fishTokenDataHelper = require('../eventParser/fishTokenParser/helperQuery')
 
 async function getPools (req, res) {
   const query = {
@@ -40,7 +42,7 @@ async function getPoolsByCategory (req, res) {
   const options = {
     page: req.body.page,
     limit: req.body.limit,
-    lean: true,
+    lean: true
   }
 
   switch (category) {
@@ -101,9 +103,70 @@ async function getPoolsStatistics (req, res) {
   }
 }
 
+async function getPoolsForAccountActive (req, res) {
+  const account = req.body.account
+  const currentEpoch = Math.floor(new Date().getTime())
+
+  try {
+    const tokens = await fishTokenDataHelper.getPoolsForAddress(account)
+    const query = {
+      token_address: {
+        $in: tokens
+      },
+      deadline: {
+        $gt: currentEpoch
+      }
+    }
+    const options = {
+      page: req.body.page,
+      limit: req.body.limit,
+      lean: true,
+      sort: '-deadline'
+    }
+
+    const pools = await PoolList.paginate(query, options).then()
+    return res.status(httpStatus.OK).json(pools)
+  } catch (err) {
+    logger.error(err)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({error: err})
+  }
+}
+
+async function getPoolsForAccountFinished (req, res) {
+  const account = req.body.account
+  const currentEpoch = Math.floor(new Date().getTime())
+
+  try {
+    const tokens = await fishTokenDataHelper.getPoolsForAddress(account)
+
+    const query = {
+      token_address: {
+        $in: tokens
+      },
+      deadline: {
+        $lte: currentEpoch
+      }
+    }
+    const options = {
+      page: req.body.page,
+      limit: req.body.limit,
+      lean: true,
+      sort: '-deadline'
+    }
+
+    const pools = await PoolList.paginate(query, options).then()
+    return res.status(httpStatus.OK).json(pools)
+  } catch (err) {
+    logger.error(err)
+    return res.status(httpStatus.INTERNAL_SERVER_ERROR).send({error: err})
+  }
+}
+
 module.exports = {
   getPools,
   getPoolById,
   getPoolsByCategory,
-  getPoolsStatistics
+  getPoolsStatistics,
+  getPoolsForAccountActive,
+  getPoolsForAccountFinished
 }

@@ -24,6 +24,6 @@ const tokenHoldersSchema = new Schema({
   }
 })
 
-tokenHoldersSchema.index({ user_address: 1, token_address: 1 }, { unique: true });
+tokenHoldersSchema.index({ user_address: 1, token_address: 1 }, { unique: true })
 tokenHoldersSchema.plugin(mongoosePaginate)
 module.exports = mongoose.db.model('TokenHolder', tokenHoldersSchema)

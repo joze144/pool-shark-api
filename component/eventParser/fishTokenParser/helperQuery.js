@@ -7,7 +7,6 @@ const ParsedData = require('./parsedDataModel')
 const Events = require('./Events')
 
 async function sumUserAndToken (userAddress, tokenAddress) {
-
   // to user
   const queryTo = {
     contract_address: tokenAddress,
@@ -40,7 +39,7 @@ async function sumEntries (query) {
   return sum
 }
 
-async function getCurrentShark(tokenAddress) {
+async function getCurrentShark (tokenAddress) {
   const query = {
     contract_address: tokenAddress,
     type: Events.NEW_SHARK
@@ -60,8 +59,17 @@ async function sumTokenIssue (tokenAddress) {
   return sumEntries(query)
 }
 
+async function getPoolsForAddress(address) {
+  const query = {
+    to_address: address
+  }
+
+  return ParsedData.distinct('contract_address', query).then()
+}
+
 module.exports = {
   sumUserAndToken,
   getCurrentShark,
-  sumTokenIssue
+  sumTokenIssue,
+  getPoolsForAddress
 }

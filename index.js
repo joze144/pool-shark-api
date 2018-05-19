@@ -14,7 +14,7 @@ const routes = require('./component/router')
 const morgan = require('morgan')
 const logger = require('./config/logger')
 const initScript = require('./component/initScript')
-const cronJobRunner = require('./component/cronJobRunner')
+const parserRunner = require('./component/parserRunner')
 
 if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = config.environments.ropsten
@@ -70,7 +70,7 @@ initScript.init().then((done, err) => {
   logger.info(done)
 })
 
-cronJobRunner.isActive().then((done) => {
+parserRunner.isActive().then((done) => {
   if (done) {
     logger.info('Data parser is active!')
     return

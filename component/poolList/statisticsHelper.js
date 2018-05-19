@@ -8,13 +8,20 @@ async function allPoolsStatistics () {
   const aggData = await PoolList.aggregate([{
     $match: query
   },
-    {
-      $group: {
-        _id: '$id',
-        total_collected_eth: {$sum: "$collected_eth"},
-        count: { $sum: 1 }
-      }
-    }]).then()
+  {
+    $group: {
+      _id: '$id',
+      total_collected_eth: {$sum: '$collected_eth'},
+      count: { $sum: 1 }
+    }
+  }]).then()
+
+  if (!aggData) {
+    return {
+      pool_count: 0,
+      total_collected_eth: 0
+    }
+  }
 
   return {
     pool_count: aggData[0].count,
@@ -32,14 +39,21 @@ async function activePoolsStatistics () {
   const aggData = await PoolList.aggregate([{
     $match: query
   },
-    {
-      $group: {
-        _id: '$id',
-        total_collected_eth: {$sum: "$collected_eth"},
-        count: { $sum: 1 }
-      }
+  {
+    $group: {
+      _id: '$id',
+      total_collected_eth: {$sum: '$collected_eth'},
+      count: { $sum: 1 }
     }
+  }
   ]).then()
+
+  if (!aggData || aggData.length === 0) {
+    return {
+      pool_count: 0,
+      total_collected_eth: 0
+    }
+  }
 
   return {
     pool_count: aggData[0].count,

@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoose = require('../../config/dbConnection')
+const mongoose = require('../../../config/dbConnection')
 const mongoosePaginate = require('mongoose-paginate')
 const Schema = mongoose.Schema
 const FishTokenEvents = require('./Events')

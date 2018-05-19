@@ -39,9 +39,9 @@ const poolListSchema = new Schema({
     type: Number
   }
 },
-  {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
-  })
+{
+  timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
+})
 
 poolListSchema.plugin(mongoosePaginate)
 module.exports = mongoose.db.model('PoolList', poolListSchema)

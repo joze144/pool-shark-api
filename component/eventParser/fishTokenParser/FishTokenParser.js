@@ -2,11 +2,11 @@
 
 const _ = require('underscore')
 const Promise = require('bluebird')
-const web3 = require('../web3Provider')
-const contract = require('../../contract/FishToken.json')
+const web3 = require('../../web3Provider')
+const contract = require('../../../contract/FishToken.json')
 const helper = require('./helper')
-const tokenHoldersHelper = require('../tokenHolders/helper')
-const poolListHelper = require('../poolList/helper')
+const tokenHoldersHelper = require('../../tokenHolders/helper')
+const poolListHelper = require('../../poolList/helper')
 
 const FishTokenEvent = require('./Events')
 

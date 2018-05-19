@@ -1,8 +1,7 @@
 'use strict'
 
 const Contract = require('./contractModel')
-const config = require('../../config/main')
-const Type = require('./Types')
+const config = require('../../../config/main')
 
 async function addContract (contractAddress, type, creationBlock, removed, deadline) {
   if (!creationBlock) {
@@ -25,7 +24,7 @@ async function addContract (contractAddress, type, creationBlock, removed, deadl
 
 async function getContracts (types) {
   const query = {
-    removed: false,
+    removed: false
   }
   // parse for 5 min after the deadline
   // query.deadline = {

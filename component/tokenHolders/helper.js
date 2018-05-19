@@ -4,8 +4,7 @@ const Web3 = require('web3')
 const Promise = require('bluebird')
 const utils = new Web3().utils
 const TokenHolders = require('./tokenHoldersModel')
-const fishTokenHelperQuery = require('../fishToken/helperQuery')
-const PoolList = require('../poolList/poolListModel')
+const fishTokenHelperQuery = require('../eventParser/fishTokenParser/helperQuery')
 
 async function updateForUserAndToken (userAddress, tokenAddress) {
   const sum = await fishTokenHelperQuery.sumUserAndToken(userAddress, tokenAddress)
@@ -22,7 +21,7 @@ async function updateForUserAndToken (userAddress, tokenAddress) {
 
 async function updateSharkForToken (tokenAddress) {
   const sharkAddress = await fishTokenHelperQuery.getCurrentShark(tokenAddress)
-  if(!sharkAddress) {
+  if (!sharkAddress) {
     return
   }
 
@@ -33,7 +32,7 @@ async function updateSharkForToken (tokenAddress) {
   const setUpdate = {
     is_shark: true
   }
-  const setPromise =  TokenHolders.update(setQuery, {$set: setUpdate}).then()
+  const setPromise = TokenHolders.update(setQuery, {$set: setUpdate}).then()
 
   const unsetQuery = {
     user_address: {$ne: sharkAddress},
@@ -42,7 +41,7 @@ async function updateSharkForToken (tokenAddress) {
   const unsetUpdate = {
     is_shark: false
   }
-  const unsetPromise =  TokenHolders.update(unsetQuery, {$set: unsetUpdate}).then()
+  const unsetPromise = TokenHolders.update(unsetQuery, {$set: unsetUpdate}).then()
 
   return Promise.all([setPromise, unsetPromise])
 }

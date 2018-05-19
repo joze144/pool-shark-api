@@ -1,12 +1,11 @@
 'use strict'
 
 const _ = require('underscore')
-const web3 = require('../web3Provider')
-const contract = require('../../contract/PoolSharkApp.json')
-const poolHelper = require('../pool/helper')
-const fishTokenHelper = require('../fishToken/helper')
-const poolListHelper = require('../poolList/helper')
-const tokenHolderHelper = require('../tokenHolders/helper')
+const web3 = require('../../web3Provider')
+const contract = require('../../../contract/PoolSharkApp.json')
+const poolHelper = require('../../pool/helper')
+const fishTokenHelper = require('../fishTokenParser/helper')
+const poolListHelper = require('../../poolList/helper')
 const AppEvents = require('./Events')
 
 function AppParser (contractAddress, fromBlock) {

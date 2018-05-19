@@ -1,8 +1,6 @@
 'use strict'
 
 const express = require('express')
-const express_graphql = require('express-graphql')
-const { buildSchema } = require('graphql')
 
 // Middleware
 const pagination = require('./pagination')
@@ -25,5 +23,9 @@ v1Routes.get('/pool/list', pagination, poolController.getPools)
 v1Routes.get('/pool/:id', poolController.getPoolById)
 v1Routes.get('/token/:id', fishTokenController.getTokenById)
 v1Routes.get('/holders/:id', pagination, tokenHoldersController.getTokenHolders)
+
+// Account API
+v1Routes.post('/pool/account/active', pagination, poolController.getPoolsForAccountActive)
+v1Routes.post('/pool/account/finished', pagination, poolController.getPoolsForAccountFinished)
 
 module.exports = apiRoutes

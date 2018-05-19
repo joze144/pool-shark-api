@@ -3,7 +3,7 @@
 const poolAbi = require('../../contract/Pool.json').abi
 const PoolList = require('./poolListModel')
 const web3 = require('../web3Provider')
-const fishTokenQueries = require('../fishToken/helperQuery')
+const fishTokenQueries = require('../eventParser/fishTokenParser/helperQuery')
 
 async function createPool (event) {
   const address = event.returnValues._pool
@@ -30,7 +30,7 @@ async function createPool (event) {
 
 async function deposit (tokenAddress) {
   const pool = await PoolList.findOne({token_address: tokenAddress}).then()
-  if(!pool) return
+  if (!pool) return
 
   const sum = await fishTokenQueries.sumTokenIssue(tokenAddress)
   const rate = pool.rate

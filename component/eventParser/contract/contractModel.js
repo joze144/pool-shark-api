@@ -1,6 +1,6 @@
 'use strict'
 
-const mongoose = require('../../config/dbConnection')
+const mongoose = require('../../../config/dbConnection')
 const mongoosePaginate = require('mongoose-paginate')
 const Schema = mongoose.Schema
 
@@ -29,6 +29,10 @@ const contractSchema = new Schema({
     type: Number
   },
   removed: {
+    required: true,
+    type: Boolean
+  },
+  newly_inserted: {
     required: true,
     type: Boolean
   }

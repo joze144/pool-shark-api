@@ -1,8 +1,8 @@
 'use strict'
 
 const Pool = require('./poolModel')
-const contractHelper = require('../contract/helper')
-const ContractType = require('../contract/Types')
+const contractHelper = require('../eventParser/contract/helper')
+const ContractType = require('../eventParser/contract/Types')
 
 async function handlePoolCreated (event) {
   const address = event.returnValues._pool
@@ -18,7 +18,7 @@ async function handlePoolCreated (event) {
     address: address
   }
 
-  let deadline = parseInt(epochDeadline * 1000);
+  let deadline = parseInt(epochDeadline * 1000)
   const update = {
     block_created: blockNumber,
     removed: removed,

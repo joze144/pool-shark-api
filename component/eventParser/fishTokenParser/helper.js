@@ -1,10 +1,10 @@
 'use strict'
 
-const web3 = require('../web3Provider')
-const poolAbi = require('../../contract/Pool.json').abi
-const FishTokenContract = require('./contractModel')
+const web3 = require('../../web3Provider')
+const poolAbi = require('../../../contract/Pool.json').abi
+const FishTokenContract = require('../../fishToken/contractModel')
 const FishTokenData = require('./parsedDataModel')
-const logger = require('../../config/logger')
+const logger = require('../../../config/logger')
 const contractHelper = require('../contract/helper')
 const ContractType = require('../contract/Types')
 const Event = require('./Events')
@@ -107,7 +107,7 @@ async function handleTokenCreated (event) {
   const query = {
     address: token
   }
-  let deadline = parseInt(epochDeadline * 1000);
+  let deadline = parseInt(epochDeadline * 1000)
   const update = {
     pool_address: poolAddress,
     deadline: deadline,
@@ -122,7 +122,7 @@ async function handleTokenCreated (event) {
   return FishTokenContract.update(query, {$set: update}, {upsert: true, setDefaultsOnInsert: true}).then()
 }
 
-async function getTokenForPool(address) {
+async function getTokenForPool (address) {
   const query = {
     pool_address: address
   }
