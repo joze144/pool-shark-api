@@ -1,13 +1,13 @@
 'use strict'
 
 const PAGE_DEFAULT = 1
-const LIMIT_DEFAULT = 10
+const LIMIT_DEFAULT = 5
 const MIN_LIMIT = 0
 const MAX_LIMIT = 100
 
 module.exports = (req, res, next) => {
-  if (!req.body.limit || !req.body.page) {
-    req.body.limit = MAX_LIMIT
+  if (req.body.limit === 'undefined' || req.body.page === 'undefined') {
+    req.body.limit = LIMIT_DEFAULT
     req.body.page = PAGE_DEFAULT
     next()
     return

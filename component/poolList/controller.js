@@ -4,6 +4,7 @@ const _ = require('underscore')
 const httpStatus = require('http-status-codes')
 const logger = require('../../config/logger')
 const statisticsHelper = require('./statisticsHelper')
+const tokenStatisticsHelper = require('../tokenHolders/statisticsHelper')
 const PoolList = require('./poolListModel')
 const fishTokenDataHelper = require('../eventParser/fishTokenParser/helperQuery')
 
@@ -86,6 +87,7 @@ async function getPoolById (req, res) {
 async function getPoolsStatistics (req, res) {
   const p1 = statisticsHelper.allPoolsStatistics()
   const p2 = statisticsHelper.activePoolsStatistics()
+  // const p3 = tokenStatisticsHelper.usersStatistics()
 
   try {
     const results = await Promise.all([p1, p2])
@@ -95,6 +97,7 @@ async function getPoolsStatistics (req, res) {
       all_collected_eth: results[0].total_collected_eth,
       active_pool_count: results[1].pool_count,
       active_collected_eth: results[1].total_collected_eth
+      // user_count: results[2].holders_data.length
     }
     return res.status(httpStatus.OK).json(payload)
   } catch (err) {

@@ -9,6 +9,10 @@ const poolContractSchema = new Schema({
     required: true,
     type: String
   },
+  creator_address: {
+    required: true,
+    type: String
+  },
   rate: {
     required: true,
     type: Number

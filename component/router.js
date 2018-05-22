@@ -9,6 +9,7 @@ const pagination = require('./pagination')
 const poolController = require('./poolList/controller')
 const fishTokenController = require('./fishToken/controller')
 const tokenHoldersController = require('./tokenHolders/controller')
+const transactionController = require('./transactionParser/controller')
 
 const apiRoutes = express.Router()
 const v1Routes = express.Router()
@@ -27,5 +28,9 @@ v1Routes.get('/holders/:id', pagination, tokenHoldersController.getTokenHolders)
 // Account API
 v1Routes.post('/pool/account/active', pagination, poolController.getPoolsForAccountActive)
 v1Routes.post('/pool/account/finished', pagination, poolController.getPoolsForAccountFinished)
+
+// Transaction API
+v1Routes.post('/transaction/create', transactionController.addTransaction)
+v1Routes.post('/transaction/list', pagination, transactionController.getTransactions)
 
 module.exports = apiRoutes

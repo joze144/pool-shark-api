@@ -16,7 +16,7 @@ async function allPoolsStatistics () {
     }
   }]).then()
 
-  if (!aggData) {
+  if (!aggData || aggData.length === 0) {
     return {
       pool_count: 0,
       total_collected_eth: 0
@@ -61,7 +61,12 @@ async function activePoolsStatistics () {
   }
 }
 
+async function userStatistics() {
+
+}
+
 module.exports = {
   allPoolsStatistics,
-  activePoolsStatistics
+  activePoolsStatistics,
+  userStatistics
 }

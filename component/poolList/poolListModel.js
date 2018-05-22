@@ -9,6 +9,10 @@ const poolListSchema = new Schema({
     type: String,
     required: true
   },
+  creator_address: {
+    type: String,
+    required: true
+  },
   token_address: {
     required: true,
     type: String

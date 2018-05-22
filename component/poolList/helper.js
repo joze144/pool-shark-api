@@ -7,6 +7,7 @@ const fishTokenQueries = require('../eventParser/fishTokenParser/helperQuery')
 
 async function createPool (event) {
   const address = event.returnValues._pool
+  const creatorAddress = event.returnValues._creator
   const name = event.returnValues._name
   const rate = event.returnValues._rate
   const epochDeadline = event.returnValues._deadline
@@ -18,6 +19,7 @@ async function createPool (event) {
     address: address
   }
   const update = {
+    creator_address: creatorAddress,
     token_address: token,
     name: name,
     rate: rate,

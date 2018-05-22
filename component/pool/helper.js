@@ -6,6 +6,7 @@ const ContractType = require('../eventParser/contract/Types')
 
 async function handlePoolCreated (event) {
   const address = event.returnValues._pool
+  const creatorAddress = event.returnValues._creator
   const name = event.returnValues._name
   const rate = event.returnValues._rate
   const epochDeadline = event.returnValues._deadline
@@ -20,6 +21,7 @@ async function handlePoolCreated (event) {
 
   let deadline = parseInt(epochDeadline * 1000)
   const update = {
+    creator_address: creatorAddress,
     block_created: blockNumber,
     removed: removed,
     rate: rate,

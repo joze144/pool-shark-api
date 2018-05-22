@@ -6,6 +6,7 @@ const contract = require('../../../contract/PoolSharkApp.json')
 const poolHelper = require('../../pool/helper')
 const fishTokenHelper = require('../fishTokenParser/helper')
 const poolListHelper = require('../../poolList/helper')
+const tokenHoldersHelper = require('../../tokenHolders/helper')
 const AppEvents = require('./Events')
 
 function AppParser (contractAddress, fromBlock) {
@@ -26,7 +27,8 @@ async function handleEvent (event) {
       const newEntry = await poolHelper.handlePoolCreated(event)
       if (newEntry) {
         await poolListHelper.createPool(event)
-        return fishTokenHelper.handleTokenCreated(event)
+        await fishTokenHelper.handleTokenCreated(event)
+        return tokenHoldersHelper.createEntryForPoolCreator(event)
       }
       return
     default:
