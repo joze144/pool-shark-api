@@ -64,7 +64,7 @@ async function getPoolsForAddress(address) {
     to_address: address
   }
 
-  return ParsedData.distinct('contract_address', query).then()
+  return ParsedData.distinct('contract_address', query).collation( { locale: 'en', strength: 2 } ).then()
 }
 
 module.exports = {

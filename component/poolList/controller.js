@@ -2,6 +2,7 @@
 
 const _ = require('underscore')
 const httpStatus = require('http-status-codes')
+const web3 = require('../web3Provider')
 const logger = require('../../config/logger')
 const statisticsHelper = require('./statisticsHelper')
 const tokenStatisticsHelper = require('../tokenHolders/statisticsHelper')
@@ -73,6 +74,10 @@ async function getPoolsByCategory (req, res) {
 
 async function getPoolById (req, res) {
   const address = req.params.id
+
+  if(!web3.utils.isAddress(address)) {
+    return res.status(httpStatus.BAD_REQUEST).send({error: 'Not a valid pool address'})
+  }
 
   try {
     const pool = await PoolList.findOne({address: address}).then()

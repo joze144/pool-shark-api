@@ -44,5 +44,7 @@ const fishTokenDataSchema = new Schema({
   timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
+fishTokenDataSchema.index({ to_address: 1 }, { collation: { locale: 'en', strength: 2 } })
+
 fishTokenDataSchema.plugin(mongoosePaginate)
 module.exports = mongoose.db.model('FishTokenData', fishTokenDataSchema)
